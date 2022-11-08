@@ -27,4 +27,6 @@ main()
     console.error(error);
     process.exit(1);
   });
-  
+
+  // contract address 0x43b19684a25cE2627f01aAeFa4AE0D7240e54D81
+
