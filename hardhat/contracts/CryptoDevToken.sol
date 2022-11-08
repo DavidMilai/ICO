@@ -10,14 +10,26 @@ contract CryptoDevToken is ERC20, Ownable {
 
     uint256 public constant tokenPrice = 0.001 ether;
 
-
-// 10**18 converting to a big number
+    // 10**18 converting to a big number
     uint256 public constant tokensPerNFT = 10 * 10**18;
+
+    uint256 public constant maxTotalSupply = 10000 * 10**18;
 
     mapping(uint256 => bool) public tokenIdsClaimed;
 
     constructor(address _cryptoDevsContract) ERC20("Crypto Dev Token", "CD") {
         CryptoDevsNFT = ICryptoDevs(_cryptoDevsContract);
+    }
+
+    function mint(uint256 amount) public payable {
+        uint256 _requiredAmount = tokenPrice * amount;
+        require(msg.value >= _requiredAmount, "Ether sent is incorrect");
+        uint256 amountWithDecimals = amount * 10**18;
+        require(
+            (totalSupply() + amountWithDecimals) <= maxTotalSupply,
+            "Exceeds the max total supply available."
+        );
+        _mint(msg.sender, amountWithDecimals);
     }
 
     function claim() public {
