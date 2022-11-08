@@ -5,4 +5,13 @@
   import "@openzeppelin/contracts/access/Ownable.sol";
   import "./ICryptoDevs.sol";
 
-  contract CryptoDevToken is ERC20, Ownable {}
+  contract CryptoDevToken is ERC20, Ownable {
+
+    ICryptoDevs cryptoDevsNFT;
+
+
+    constructor(address _cryptoDevsContract) ERC20("Crypto Dev Token", "CD"){
+        cryptoDevsNFT = ICryptoDevs(_cryptoDevsContract);
+    }
+
+  }
