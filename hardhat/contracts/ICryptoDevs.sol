@@ -5,5 +5,7 @@ interface ICryptoDevs{
 
     function tokenOfOwnerByIndex(address owner, uint256 index) external view  returns (uint256 tokenId);
 
-    functionvbalanceOf(address owner) external view returns (uint256 balance);
+
+    function balanceOf(address owner) external view returns (uint256 balance);
+
 }

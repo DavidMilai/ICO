@@ -53,4 +53,8 @@ contract CryptoDevToken is ERC20, Ownable {
 
         _mint(msg.sender, amount * tokensPerNFT);
     }
+
+    receive() external payable {}
+
+    fallback() external payable {}
 }

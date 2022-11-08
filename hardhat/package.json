@@ -12,6 +12,7 @@
     "hardhat": "^2.12.2"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@openzeppelin/contracts": "^4.7.3",
     "abort-controller": "^3.0.0",
     "abstract-level": "^1.0.3",
