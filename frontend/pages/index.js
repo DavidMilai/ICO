@@ -20,7 +20,7 @@ export default function Home() {
         window.alert("Change the network to Goerli");
         throw new Error("Change network to Goerli");
       }
-  
+
       if (needSigner) {
         const signer = web3Provider.getSigner();
         return signer;
@@ -38,16 +38,18 @@ export default function Home() {
         providerOptions: {},
         disableInjectedProvider: false,
       });
-      ConnectToWalletConnect();
+      ConnectWallet();
     }
   }, []);
 
-  const ConnectToWalletConnect = async () => {
-    try {
-      await getProviderOrSigner();
+  const ConnectWallet = async () => {
+    try { 
+     await getProviderOrSigner();  
       setWalletConnected(true);
-    } catch (err) {
-      console.log(err);
+    } catch (err) { 
+      console.log("I am here");
+    console.log(err);
+
     }
   };
 
@@ -62,8 +64,13 @@ export default function Home() {
         <div>
           <h1 className={styles.title}>Welcome to Crypto Devs ICO</h1>
           <div className={styles.description}>
-            You can claim or mint Crypto tokens here
+            overall /1000 have been minted
           </div>
+          {walletConnected ? (
+            <div>Wallet connected</div>
+          ) : (
+            <button onClick={ConnectWallet} className={styles.button}>Connect Your Wallet</button>
+          )}
         </div>
       </div>
     </div>
