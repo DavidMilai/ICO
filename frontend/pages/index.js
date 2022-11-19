@@ -47,7 +47,6 @@ export default function Home() {
      await getProviderOrSigner();  
       setWalletConnected(true);
     } catch (err) { 
-      console.log("I am here");
     console.log(err);
 
     }
