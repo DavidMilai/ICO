@@ -43,12 +43,12 @@ export default function Home() {
   }, []);
 
   const ConnectWallet = async () => {
-    try { 
-     await getProviderOrSigner();  
+    try {
+      await getProviderOrSigner();
       setWalletConnected(true);
-    } catch (err) { 
-    console.log(err);
-
+    } catch (err) {
+      console.log(err);
+      console.log(err);
     }
   };
 
@@ -68,7 +68,9 @@ export default function Home() {
           {walletConnected ? (
             <div>Wallet connected</div>
           ) : (
-            <button onClick={ConnectWallet} className={styles.button}>Connect Your Wallet</button>
+            <button onClick={ConnectWallet} className={styles.button}>
+              Connect Your Wallet
+            </button>
           )}
         </div>
       </div>
