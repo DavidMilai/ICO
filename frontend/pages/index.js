@@ -10,6 +10,30 @@ export default function Home() {
   const [walletConnected, setWalletConnected] = useState(false);
   const web3ModalRef = useRef();
   const [tokensMinted, setTokensMintes] = useState(zero);
+  const [tokenAmount, setTokenAmount] = useState(zero);
+
+  const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
+    useState(zero);
+
+  const renderButton = () => {
+    return (
+      <div style={{ display: "flex-col" }}>
+        <div>
+          <input
+            type="number"
+            placeholder="Amount of Tokens"
+            onChange={(e) => setTokenAmount(BigNumber.from(e.target.value))}
+          />
+          <button className={styles.button} disabled = {!(tokenAmount>0)}
+          
+          onClick = {()=>mintCryptoDevsToken(tokenAmount)}
+          >
+            Mint Tokens
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   const getProviderOrSigner = async (needSigner = false) => {
     try {
@@ -49,7 +73,7 @@ export default function Home() {
       await getProviderOrSigner();
       setWalletConnected(true);
     } catch (err) {
-      console.log(err); 
+      console.log(err);
     }
   };
 
@@ -67,8 +91,15 @@ export default function Home() {
             You can claim or mint Crypto Dev tokens here
           </div>
           {walletConnected ? (
+            <div>
               <div className={styles.description}>
-              overall {utils.formatEther(tokensMinted)}/1000 have been minted
+                You have minted{utils.formatEther(balanceOfCryptoDevTokens)}{" "}
+                Crypto Dev tokens here
+              </div>
+              <div className={styles.description}>
+                overall {utils.formatEther(tokensMinted)}/1000 have been minted
+              </div>
+              {renderButton()}
             </div>
           ) : (
             <button onClick={ConnectWallet} className={styles.button}>
