@@ -24,15 +24,25 @@ export default function Home() {
             placeholder="Amount of Tokens"
             onChange={(e) => setTokenAmount(BigNumber.from(e.target.value))}
           />
-          <button className={styles.button} disabled = {!(tokenAmount>0)}
-          
-          onClick = {()=>mintCryptoDevsToken(tokenAmount)}
+          <button
+            className={styles.button}
+            disabled={!(tokenAmount > 0)}
+            onClick={() => mintCryptoDevsToken(tokenAmount)}
           >
             Mint Tokens
           </button>
         </div>
       </div>
     );
+  };
+
+  const mintCryptoDevsToken = async (amount) => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const tokenContract = new Contract();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getProviderOrSigner = async (needSigner = false) => {
