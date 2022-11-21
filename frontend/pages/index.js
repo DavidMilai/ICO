@@ -16,7 +16,7 @@ export default function Home() {
   const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
     useState(zero);
 
-    const getBalanceOfCryptoDevTokent = async() =>{
+    const getBalanceOfCryptoDevTokens = async() =>{
       try {
         const provider = await getProviderOrSigner();
         const tokenContract = new Contract(
@@ -35,6 +35,8 @@ export default function Home() {
         console.log(error)
       }
     }
+
+    const getTotalTokenMinted = async()=>{}
 
 
   const renderButton = () => {
@@ -74,7 +76,7 @@ export default function Home() {
       await tx.wait();
       setLoading(false);
       window.alert("Successfully minted CryptoDev Token");
-      await getBalanceOfCryptoDevTokent();
+      await getBalanceOfCryptoDevTokens();
       await getTotalTokenMinted()
     } catch (error) {
       console.log(error);
