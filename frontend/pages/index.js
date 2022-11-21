@@ -11,9 +11,20 @@ export default function Home() {
   const web3ModalRef = useRef();
   const [tokensMinted, setTokensMintes] = useState(zero);
   const [tokenAmount, setTokenAmount] = useState(zero);
+  const [loading, setLoading] = useState(false);
 
   const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
     useState(zero);
+
+    const getBalanceOfCryptoDevTokent = async() =>{
+      try {
+        
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
 
   const renderButton = () => {
     return (
@@ -39,7 +50,21 @@ export default function Home() {
   const mintCryptoDevsToken = async (amount) => {
     try {
       const signer = await getProviderOrSigner(true);
-      const tokenContract = new Contract();
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        signer
+      );
+      const value = 0.001 * amount;
+      const tx = await tokenContract.mint(amount, {
+        value: utils.parseEther(value.toString()),
+      });
+      setLoading(true);
+      await tx.wait();
+      setLoading(false);
+      window.alert("Successfully minted CryptoDev Token");
+      await getBalanceOfCryptoDevTokent();
+      await getTotalTokenMinted()
     } catch (error) {
       console.log(error);
     }
