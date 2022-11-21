@@ -6,8 +6,10 @@ import Web3Modal from "web3modal";
 import { BigNumber, Contract, providers, utils } from "ethers";
 
 export default function Home() {
+  const zero = BigNumber.from(0);
   const [walletConnected, setWalletConnected] = useState(false);
   const web3ModalRef = useRef();
+  const [tokensMinted, setTokensMintes] = useState(zero);
 
   const getProviderOrSigner = async (needSigner = false) => {
     try {
@@ -47,8 +49,7 @@ export default function Home() {
       await getProviderOrSigner();
       setWalletConnected(true);
     } catch (err) {
-      console.log(err);
-      console.log(err);
+      console.log(err); 
     }
   };
 
@@ -63,10 +64,12 @@ export default function Home() {
         <div>
           <h1 className={styles.title}>Welcome to Crypto Devs ICO</h1>
           <div className={styles.description}>
-            overall /1000 have been minted
+            You can claim or mint Crypto Dev tokens here
           </div>
           {walletConnected ? (
-            <div>Wallet connected</div>
+              <div className={styles.description}>
+              overall {utils.formatEther(tokensMinted)}/1000 have been minted
+            </div>
           ) : (
             <button onClick={ConnectWallet} className={styles.button}>
               Connect Your Wallet
