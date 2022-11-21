@@ -18,7 +18,18 @@ export default function Home() {
 
     const getBalanceOfCryptoDevTokent = async() =>{
       try {
-        
+        const provider = await getProviderOrSigner();
+        const tokenContract = new Contract(
+          TOKEN_CONTRACT_ADDRESS,
+          TOKEN_CONTRACT_ABI,
+          provider
+        );
+
+        const signer = await getProviderOrSigner(true);
+        const address = signer.getAddress();
+        const balance = await tokenContract.balanceOf(address);
+
+        setBalanceOfCryptoDevTokens(balance);
         
       } catch (error) {
         console.log(error)
