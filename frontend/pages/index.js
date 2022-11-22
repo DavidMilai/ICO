@@ -4,6 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Web3Modal from "web3modal";
 import { BigNumber, Contract, providers, utils } from "ethers";
+import {
+  TOKEN_CONTRACT_ABI,
+  NFT_CONTRACT_ABI,
+  NFT_CONTRACT_ADDRESS,
+  TOKEN_CONTRACT_ADDRESS,
+}from "../constants"
 
 export default function Home() {
   const zero = BigNumber.from(0);
