@@ -9,35 +9,48 @@ export default function Home() {
   const zero = BigNumber.from(0);
   const [walletConnected, setWalletConnected] = useState(false);
   const web3ModalRef = useRef();
-  const [tokensMinted, setTokensMintes] = useState(zero);
+  const [tokensMinted, setTokensMinted] = useState(zero);
   const [tokenAmount, setTokenAmount] = useState(zero);
   const [loading, setLoading] = useState(false);
 
   const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
     useState(zero);
 
-    const getBalanceOfCryptoDevTokens = async() =>{
-      try {
-        const provider = await getProviderOrSigner();
-        const tokenContract = new Contract(
-          TOKEN_CONTRACT_ADDRESS,
-          TOKEN_CONTRACT_ABI,
-          provider
-        );
+  const getBalanceOfCryptoDevTokens = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        provider
+      );
 
-        const signer = await getProviderOrSigner(true);
-        const address = signer.getAddress();
-        const balance = await tokenContract.balanceOf(address);
+      const signer = await getProviderOrSigner(true);
+      const address = signer.getAddress();
+      const balance = await tokenContract.balanceOf(address);
 
-        setBalanceOfCryptoDevTokens(balance);
-        
-      } catch (error) {
-        console.log(error)
-      }
+      setBalanceOfCryptoDevTokens(balance);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    const getTotalTokenMinted = async()=>{}
+  const getTotalTokenMinted = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        provider
+      );
+      const _tokensMinted = await tokenContract.totalSupply();
+      setTokensMinted(_tokensMinted);
 
+      setBalanceOfCryptoDevTokens(balance);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderButton = () => {
     return (
@@ -77,7 +90,7 @@ export default function Home() {
       setLoading(false);
       window.alert("Successfully minted CryptoDev Token");
       await getBalanceOfCryptoDevTokens();
-      await getTotalTokenMinted()
+      await getTotalTokenMinted();
     } catch (error) {
       console.log(error);
     }
