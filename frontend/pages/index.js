@@ -17,7 +17,7 @@ export default function Home() {
   const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
     useState(zero);
 
-  const claimCryproDevTokensv = async () => {
+  const claimCryproDevTokens = async () => {
     try {
       const signer = await getProviderOrSigner(true);
       const tokenContract = new Contract(
@@ -121,10 +121,10 @@ export default function Home() {
         <div>
           <div className={styles.description}>
             {tokensToBeClaimed * 10} Tokens can be claimed!
-          </div>
-          <button className={styles.button} onClick={claimCryproDevTokens}>
-            Claim Tokens
-          </button>
+          </div> 
+          <button onClick={claimCryproDevTokens} className={styles.button}>
+          Claim Tokens
+            </button>
         </div>
       );
     }
@@ -238,7 +238,7 @@ export default function Home() {
           {walletConnected ? (
             <div>
               <div className={styles.description}>
-                You have minted{utils.formatEther(balanceOfCryptoDevTokens)}{" "}
+                You have minted {utils.formatEther(balanceOfCryptoDevTokens)}{" "}
                 Crypto Dev tokens here
               </div>
               <div className={styles.description}>
