@@ -12,9 +12,64 @@ export default function Home() {
   const [tokensMinted, setTokensMinted] = useState(zero);
   const [tokenAmount, setTokenAmount] = useState(zero);
   const [loading, setLoading] = useState(false);
+  const [tokensToBeClaimed, setTokensToBeClaimed] = useState(zero);
 
   const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
     useState(zero);
+
+  const claimCryproDevTokensv = async () => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        signer
+      );
+      const tx = await tokenContract.claim();
+      setLoading(true);
+      tx.wait();
+      setLoading(false);
+      window.alert("Successfully claimed Crypto Dev tokens");
+      await getBalanceOfCryptoDevTokens();
+      await getTotalTokenMinted();
+      await getTokensToBeClaimed();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTokensToBeClaimed = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+      const nftContract = new Contract(
+        NFT_CONTRACT_ADDRESS,
+        NFT_CONTRACT_ABI,
+        provider
+      );
+      const signer = await getProviderOrSigner(true);
+      const address = await signer.getAddress;
+
+      const balance = await nftContract.balanceOf(address);
+
+      if (balance === zero) {
+        setTokensToBeClaimed(zero);
+      } else {
+        var amount = 0;
+
+        for (var i = 0; i < balance; i++) {
+          const tokenId = await nftContract.tokenOfOwnerByIndex(address, i);
+          const claimed = await tokenContract.tokenIdsClaimed(tokenId);
+          if (!claimed) {
+            amount++;
+          }
+        }
+        setTokensToBeClaimed(BigNumber.from(amount));
+      }
+    } catch (error) {
+      console.log(error);
+      setTokensToBeClaimed(zero);
+    }
+  };
 
   const getBalanceOfCryptoDevTokens = async () => {
     try {
@@ -53,6 +108,26 @@ export default function Home() {
   };
 
   const renderButton = () => {
+    if (loading) {
+      return (
+        <div>
+          <button className={styles.button}>Loading...</button>
+        </div>
+      );
+    }
+
+    if (tokensToBeClaimed) {
+      return (
+        <div>
+          <div className={styles.description}>
+            {tokensToBeClaimed * 10} Tokens can be claimed!
+          </div>
+          <button className={styles.button} onClick={claimCryproDevTokens}>
+            Claim Tokens
+          </button>
+        </div>
+      );
+    }
     return (
       <div style={{ display: "flex-col" }}>
         <div>
@@ -91,6 +166,7 @@ export default function Home() {
       window.alert("Successfully minted CryptoDev Token");
       await getBalanceOfCryptoDevTokens();
       await getTotalTokenMinted();
+      await getTokensToBeClaimed();
     } catch (error) {
       console.log(error);
     }
@@ -118,6 +194,13 @@ export default function Home() {
     }
   };
 
+  const loadData = async()=>{
+    
+    await getBalanceOfCryptoDevTokens();
+    await getTotalTokenMinted();
+    await getTokensToBeClaimed();
+  }
+
   useEffect(() => {
     if (!walletConnected) {
       web3ModalRef.current = new Web3Modal({
@@ -126,8 +209,9 @@ export default function Home() {
         disableInjectedProvider: false,
       });
       ConnectWallet();
+      loadData();
     }
-  }, []);
+  }, [walletConnected]);
 
   const ConnectWallet = async () => {
     try {
@@ -168,7 +252,13 @@ export default function Home() {
             </button>
           )}
         </div>
+        <div>
+          <img className={styles.image} src = "0.svg"/>
+        </div>
       </div>
+      <footer className={styles.footer}>
+        Made with &#10084; by Crypto Devs
+      </footer>
     </div>
   );
 }
