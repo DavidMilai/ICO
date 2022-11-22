@@ -52,8 +52,13 @@ export default function Home() {
         NFT_CONTRACT_ABI,
         provider
       );
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        provider
+      );
       const signer = await getProviderOrSigner(true);
-      const address = await signer.getAddress;
+      const address = await signer.getAddress();
 
       const balance = await nftContract.balanceOf(address);
 
@@ -105,9 +110,7 @@ export default function Home() {
         provider
       );
       const _tokensMinted = await tokenContract.totalSupply();
-      setTokensMinted(_tokensMinted);
-
-      setBalanceOfCryptoDevTokens(balance);
+      setTokensMinted(_tokensMinted); 
     } catch (error) {
       console.log(error);
     }
