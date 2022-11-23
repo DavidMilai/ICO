@@ -9,7 +9,7 @@ import {
   NFT_CONTRACT_ABI,
   NFT_CONTRACT_ADDRESS,
   TOKEN_CONTRACT_ADDRESS,
-}from "../constants"
+} from "../constants";
 
 export default function Home() {
   const zero = BigNumber.from(0);
@@ -110,7 +110,7 @@ export default function Home() {
         provider
       );
       const _tokensMinted = await tokenContract.totalSupply();
-      setTokensMinted(_tokensMinted); 
+      setTokensMinted(_tokensMinted);
     } catch (error) {
       console.log(error);
     }
@@ -125,15 +125,15 @@ export default function Home() {
       );
     }
 
-    if (tokensToBeClaimed>0 ){
+    if (tokensToBeClaimed > 0) {
       return (
         <div>
           <div className={styles.description}>
             {tokensToBeClaimed * 10} Tokens can be claimed!
-          </div> 
+          </div>
           <button onClick={claimCryproDevTokens} className={styles.button}>
-          Claim Tokens
-            </button>
+            Claim Tokens
+          </button>
         </div>
       );
     }
@@ -203,12 +203,11 @@ export default function Home() {
     }
   };
 
-  const loadData = async()=>{
-    
+  const loadData = async () => {
     await getBalanceOfCryptoDevTokens();
     await getTotalTokenMinted();
     await getTokensToBeClaimed();
-  }
+  };
 
   useEffect(() => {
     if (!walletConnected) {
@@ -262,7 +261,7 @@ export default function Home() {
           )}
         </div>
         <div>
-          <img className={styles.image} src = "0.svg"/>
+          <img className={styles.image} src="0.svg" />
         </div>
       </div>
       <footer className={styles.footer}>
